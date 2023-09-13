@@ -15,7 +15,8 @@ const getUsers = (payload) => {
     };
     return axios(config);
   };
-  
+
+
   const torreService = { getUsers };
   
   export default torreService;
