@@ -61,3 +61,10 @@ body{
 a:link{
     text-decoration: none;
 }
+
+.truncate {
+    white-space: nowrap;       /* Prevent text from wrapping to the next line */
+    overflow: hidden;          /* Hide any overflowing text */
+    text-overflow: ellipsis;   /* Display '...' when text overflows */
+    max-width: 200px;          /* Adjust the maximum width as needed */
+  }

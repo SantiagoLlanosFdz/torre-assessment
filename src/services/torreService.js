@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const endpoint = {
-  search: "http://arda.torre.co/entities/_search"
+  search: "https://arda.torre.co/entities/_searchStream"
 }
 
 const getUsers = (payload) => {
@@ -9,7 +9,7 @@ const getUsers = (payload) => {
       method: "POST",
       url: endpoint.search,
       data: payload,
-      withCredentials: true,
+      withCredentials: false,
       crossdomain: true,
       headers: { "Content-Type": "application/json" },
     };
