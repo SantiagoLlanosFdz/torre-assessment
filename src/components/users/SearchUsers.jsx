@@ -5,19 +5,22 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import torreService from "../../services/torreService";
 import UserCard from "./UserCard";
-import { Navigate } from "react-router-dom";
+import RecentSearches from "./RecentSearches";
 
 
 
 
 function SearchUsers() {
     const [searchData, setSearchData] = useState({
-        searchInput: ""
+        searchInput: "",
     })
+
+    const [searchHistory, setSearchHistory] = useState([])
     const [searchResults, setSearchResults] = useState({
         data: [],
         mappedResponse: []
     })
+
 
     const payload = {
         excludeContacts: true,
@@ -29,12 +32,23 @@ function SearchUsers() {
         torreGgId: "1330502",
     }
 
+    const searchCounter = () => {
+        const searchQuery = searchData.searchInput;
+        setSearchHistory((prevState) => {
+            return [...prevState, searchQuery];
+        });
+        console.log(searchHistory)
+    }
+
     const onSearchClick = (e) => {
         e.preventDefault();
         torreService
             .getUsers(payload)
             .then(onGetUsersSuccess)
             .catch(onGetUsersError)
+            .finally(() => {
+                searchCounter();
+            });
     };
 
     const onGetUsersSuccess = (response) => {
@@ -49,6 +63,7 @@ function SearchUsers() {
             newSt.data = mappedArray;
             return newSt
         })
+
     }
 
     const onGetUsersError = (error) => {
@@ -56,7 +71,6 @@ function SearchUsers() {
     }
 
     const handleChildData = (ggId, username) => {
-        console.log("data from child: ", ggId, username)
         const navigationUrl = `https://bio.torre.co/${username}`
         const redirectToWebsite = (url) => {
             window.location.href = url;
@@ -73,6 +87,7 @@ function SearchUsers() {
             />
         )
     }
+
     const onSearchbarChange = (e) => {
         const target = e.target;
         const newUserValue = target.value;
@@ -111,7 +126,9 @@ function SearchUsers() {
                 <div className="row justify-content-center">{searchResults.mappedResponse}
                 </div>
             </div>
-
+            <div>
+                <RecentSearches history={searchHistory} />
+            </div>
 
         </React.Fragment>
     )
