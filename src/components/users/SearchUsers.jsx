@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import torreService from "../../services/torreService";
 import UserCard from "./UserCard";
+import { Navigate } from "react-router-dom";
 
 
 
@@ -30,7 +31,6 @@ function SearchUsers() {
 
     const onSearchClick = (e) => {
         e.preventDefault();
-        console.log("searching for this: ", searchData.searchInput);
         torreService
             .getUsers(payload)
             .then(onGetUsersSuccess)
@@ -55,13 +55,21 @@ function SearchUsers() {
         console.log(error)
     }
 
+    const handleChildData = (ggId, username) => {
+        console.log("data from child: ", ggId, username)
+        const navigationUrl = `https://bio.torre.co/${username}`
+        const redirectToWebsite = (url) => {
+            window.location.href = url;
+        }
+        redirectToWebsite(navigationUrl)
+    }
+
     const mapResponse = (anUser) => {
-        console.log(anUser)
         return (
             <UserCard
                 anUser={anUser}
                 key={anUser.ggId}
-
+                sendDataToParent={handleChildData}
             />
         )
     }
@@ -87,7 +95,7 @@ function SearchUsers() {
                             type="text"
                             className="search-input"
                             id="searchbar"
-                            autocomplete="off"
+                            autoComplete="off"
                             placeholder="Search for someone..."
                             name="searchInput"
                             value={searchData.searchInput}
