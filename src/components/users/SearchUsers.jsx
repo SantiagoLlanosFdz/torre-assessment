@@ -15,7 +15,7 @@ function SearchUsers() {
 
     const onSearchClick = (e) => {
         e.preventDefault();
-        console.log("searching for: ", searchData.searchInput);
+        console.log("searching for this: ", searchData.searchInput);
     };
 
     const onSearchbarChange = (e) => {
